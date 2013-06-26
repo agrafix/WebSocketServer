@@ -32,11 +32,22 @@
 #include <sstream>
 #include <iostream>
 
-#ifdef linux
-#include <sys/socket.h> // socket(), connect()
-#include <arpa/inet.h> // sockaddr_in 
-#else
+#ifdef WIN32
 #include <winsock2.h>
+#else
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+typedef int SOCKET;
+#define INVALID_SOCKET  (SOCKET)(~0)
+#define SOCKET_ERROR            (-1)
+#define NO_ERROR 0
 #endif
 
 #include "./hybi10.h"
@@ -63,7 +74,7 @@ private:
     SOCKET _sListen;
     SOCKET _sClients[WS_MAX_CLIENTS];
     
-    FD_SET _fdSet;
+    fd_set _fdSet;
     
     // init functions
     void initClients();

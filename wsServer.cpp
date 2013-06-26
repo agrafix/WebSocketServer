@@ -81,7 +81,11 @@ wsServer::wsServer(wsHookInterface *hook) {
  */
 wsServer::~wsServer() { 
     // close socket
+    #ifdef WIN32
     closesocket(_sListen);
+    #else
+    close(_sListen);
+    #endif
     
     // cleanup
     winSock(2);
@@ -331,7 +335,11 @@ void wsServer::disconnectClient(int i, string reason) {
     log("disconnected. Reason: " + reason, i);
     
     if (_sClients[i] != INVALID_SOCKET) {
+#ifdef WIN32
         closesocket(_sClients[i]);
+#else
+        close(_sClients[i]);
+#endif
         _sClients[i] = INVALID_SOCKET;
     }
     
@@ -392,15 +400,14 @@ bool wsServer::openSocket() {
  * @return false on failure, true on success
  */
 bool wsServer::setNonBlocking() {
-#ifndef linux
     u_long iMode = 1;
+#ifdef WIN32
     int iResult = ioctlsocket(_sListen, FIONBIO, &iMode);
     if (iResult != NO_ERROR) {
         return false;
     }
 #else
-    int x=fcntl(_sListen, F_GETFL, 0);  
-    fcntl( s, F_SETFL, x | O_NONBLOCK );
+    ioctl(_sListen, FIONBIO, &iMode);
 #endif
     
     return true;
@@ -421,12 +428,12 @@ void wsServer::initClients() {
  * @return false on error, true on success
  */
 bool wsServer::winSock(int action) {
-#ifndef linux
+#ifdef WIN32
     if (action == 1) {
         WSADATA w;
         if(int result = WSAStartup(MAKEWORD(2,2), &w) != 0)
         {
-            cout << "Winsock 2 konnte nicht gestartet werden! Error #" << result << endl;
+            cout << "Winsock 2 couldn't be launched! Error #" << result << endl;
             return false;
         }
     }
