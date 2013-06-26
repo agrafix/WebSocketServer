@@ -53,7 +53,6 @@ namespace hybi10 {
         std::string payload;
     };
     
-    std::string encode2(request hRequest, bool masked);
     std::string encode(request hRequest, bool masked);
     
     request decode(std::string data);
