@@ -43,6 +43,8 @@
 #include <netdb.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
+#include <string.h>
 #include <sys/ioctl.h>
 typedef int SOCKET;
 #define INVALID_SOCKET  (SOCKET)(~0)
