@@ -13,10 +13,10 @@ REBUILDABLES = $(OBJS) $(LINK_TARGET)
 
 clean :
 	rm -f $(REBUILDABLES)
-	echo Cleaned
+	@echo Cleaned
 
 all : $(LINK_TARGET)
-	echo Everythings ready
+	@echo Everythings ready
 
 $(LINK_TARGET) : $(OBJS)
 	g++ -g -o $@ $^ -llua
