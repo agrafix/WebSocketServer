@@ -19,10 +19,10 @@ all : $(LINK_TARGET)
 	echo Everythings ready
 
 $(LINK_TARGET) : $(OBJS)
-	g++ -g -o $@ $^ -llua
+	g++ -g -o $@ $^ -llua5.1
 
 %.o : %.cpp
-	g++ -c $<
+	g++ -c -I/usr/include/lua5.1/ $<
 
 main.o : wsHookInterface.h wsLuaHook.h wsServer.h
 wsServer.o : wsServer.h wsHandshake.h wsServerInterface.h wsHookInterface.h
