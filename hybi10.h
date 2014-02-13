@@ -38,13 +38,13 @@ namespace hybi10 {
     typedef unsigned char byte;
     
     struct hybiPayloadHeader {
-        unsigned short fin : 1;
+        unsigned short opcode : 4;
         unsigned short rsv1 : 1;
         unsigned short rsv2 : 1;
         unsigned short rsv3 : 1;
-        unsigned short opcode : 4;
-        unsigned short mask : 1;
+        unsigned short fin : 1;
         unsigned short payload_len: 7;
+        unsigned short mask : 1;
     };
 
     struct request {

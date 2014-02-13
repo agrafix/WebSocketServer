@@ -1,0 +1,37 @@
+<html>
+   <head>
+        <title>Testing WebSocketServer</title>
+   </head>
+   <body>
+
+   <script>
+function socketExample() {
+        var socket;
+        if (window.hasOwnProperty("WebSocket")) { // webkit-browser
+           socket = new WebSocket("ws://localhost:8085/");
+        } else if (window.hasOwnProperty("MozWebSocket")) { // firefox
+           socket = new MozWebSocket("ws://localhost:8085/");
+        } else { // browser doesnt support websocket
+           alert("Your browser doesn't support WebSocket.");
+           return;
+        }
+        console.log("Socket is ready.");
+        socket.onopen = function() { // the socket is ready, send something
+           socket.send("Wow, HTML5-WebSocket is nice!");
+           console.log("Sent data.");
+        };
+
+        socket.onmessage = function(msg) { // the server send something
+           alert("The server said: " + msg.data);
+        };
+
+        socket.onclose = function() { // the server closed the connection
+           alert("The server closed the connection.");
+        };
+}
+
+ // run the example
+   socketExample();
+   </script>
+   </body>
+</html>

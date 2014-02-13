@@ -172,7 +172,7 @@ void wsServer::clientRecv(int i) {
     long status = recv(_sClients[i], buff, 256, 0);
     while (status > 0) {
         buff[status] = '\0'; // terminate input
-        requestStream << buff;
+        requestStream.write(buff, status);
         
         // load next chunk
         status = recv(_sClients[i], buff, 256, 0);
