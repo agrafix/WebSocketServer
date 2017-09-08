@@ -45,7 +45,7 @@ namespace hybi10 {
         std::stringstream sstr;
         
         // set header flags: fin, rsv, opcode
-        unsigned char head;
+        unsigned char head = 0;
         
         if (hRequest.type == "text") {
             head = 129; // 10000001
@@ -73,7 +73,7 @@ namespace hybi10 {
             sstr << b1;
             
             for (int i = 7; i >= 0; i--) {
-                unsigned char b;
+                unsigned char b = 0;
                 
                 for (int j = 0; j < 8; j++) {
                     unsigned char shift = 0x01 << j;
